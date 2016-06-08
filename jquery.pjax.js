@@ -719,7 +719,11 @@ function extractContainer(data, xhr, options) {
     } else {
       var $fragment = findAll($body, options.fragment).first()
     }
-    
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> d76e840c0f1c0a98c9dd5065b32e436e810d8d13
     if ($fragment.length) {
       obj.contents = options.fragment === 'body' ? $fragment : $fragment.contents()
 
