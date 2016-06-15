@@ -719,11 +719,7 @@ function extractContainer(data, xhr, options) {
     } else {
       var $fragment = findAll($body, options.fragment).first()
     }
-<<<<<<< HEAD
 
-=======
-
->>>>>>> d76e840c0f1c0a98c9dd5065b32e436e810d8d13
     if ($fragment.length) {
       obj.contents = options.fragment === 'body' ? $fragment : $fragment.contents()
 
@@ -731,10 +727,18 @@ function extractContainer(data, xhr, options) {
       // on the fragment
       if (!obj.title)
         obj.title = $fragment.attr('title') || $fragment.data('title')
+
+      obj.data = $fragment.data('pjax-data');
     }
 
   } else if (!fullDocument) {
     obj.contents = $body
+    obj.data = $body.data('pjax-data');
+  }
+
+  // obj.data 转对象
+  if (obj.data) {
+    obj.data = (typeof(obj.data) == 'object') ? obj.data : eval('(' + obj.data + ')');
   }
 
   // Clean up any <title> tags
@@ -771,16 +775,17 @@ function executeScriptTags(scripts) {
 
   scripts.each(function() {
     var src = this.src
-    var matchedScripts = existingScripts.filter(function() {
-      return this.src === src
-    })
-    if (matchedScripts.length) return
-
-    var script = document.createElement('script')
-    var type = $(this).attr('type')
-    if (type) script.type = type
-    script.src = $(this).attr('src')
-    document.head.appendChild(script)
+    $.getScript(src)
+    // var matchedScripts = existingScripts.filter(function() {
+    //   return this.src === src
+    // })
+    // if (matchedScripts.length) return
+    //
+    // var script = document.createElement('script')
+    // var type = $(this).attr('type')
+    // if (type) script.type = type
+    // script.src = $(this).attr('src')
+    // document.head.appendChild(script)
   })
 }
 
